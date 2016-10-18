@@ -2,7 +2,6 @@ import sys
 import os
 from numpy import array, fromstring, ones, zeros, uint8, diff, where, sum, delete
 import subprocess
-from pipes import quote
 from .pnm import readPNM, dumpImage
 import re
 from pipes import quote
@@ -28,12 +27,12 @@ Command failed: {1}
         raise
 
 #-----------------------------------------------------------------------
-def popen(name,command, *args, **kwargs):
+def popen(name, command, *args, **kwargs):
     try:
-        result=subprocess.Popen(command,*args, **kwargs)
+        result = subprocess.Popen(command, *args, **kwargs)
         return result
     except OSError, e:
-        message="""Error running {0}. Is it installed correctly?
+        message = """Error running {0}. Is it installed correctly?
 Error: {1}""".format(name, e)
         raise OSError(message)
     except Exception, e:
@@ -52,7 +51,8 @@ def col(x, colmult=1.0) :
     """colors"""
     return colinterp(colarr,(colmult * x)% 1.0) / 2
 
-
+#line: 57-335
+#cells = [pdf.process_page("./2015_601628.pdf", p) for p in pages]
 def process_page(infile, pgs, 
     outfilename=None,
     greyscale_threshold=25,
@@ -71,20 +71,33 @@ def process_page(infile, pgs,
     checkcells=False,
     whitespace="normalize",
     boxes=False) :
+  with open("/home/lxw/IT/program/github/pdf-table-extract/example/logfile.log", "w") as f:
+    print "In core.py::process_page()"
+    f.write("In core.py::process_page()")
+  """
+  exit(0)
+  """
     
   outfile = open(outfilename,'w') if outfilename else sys.stdout
-  page=page or []
+  page = page or []
   (pg,frow,lrow) = (map(int,(pgs.split(":")))+[None,None])[0:3]
+  #lxw INFO: pg, frow, lrow == 1, None, None
+
   #check that pdftoppdm exists by running a simple command
   check_for_required_executable("pdftoppm",["pdftoppm","-h"])
   #end check
 
   p = popen("pdftoppm", ("pdftoppm -gray -r %d -f %d -l %d %s " %
-      (bitmap_resolution,pg,pg,quote(infile))),
+      (bitmap_resolution, pg, pg, quote(infile))),
       stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True )
+  #popen(name, command, *args, **kwargs):
 
 #-----------------------------------------------------------------------
 # image load secion.
+  with open("/home/lxw/IT/program/github/pdf-table-extract/example/logfile.log", "w") as f:
+    f.write("type(p.stdout): ", type(p.stdout))
+    f.write("p.stdout: ", p.stdout)
+  #exit(0)
 
   (maxval, width, height, data) = readPNM(p.stdout)
 
