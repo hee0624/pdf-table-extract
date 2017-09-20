@@ -7,10 +7,10 @@ in tables from a PDF file, and was originally designed to read the
 tables in ST Micro’s datasheets. The script requires numpy and poppler
 (pdftoppm and pdftotext)
 
-###License
+### License
 [MIT Expat](http://ashimagroup.net/os/license/mit-expat)
 
-###Tags
+### Tags
 [Utilities](http://ashimagroup.net/os/tag/utilities)
 
 
